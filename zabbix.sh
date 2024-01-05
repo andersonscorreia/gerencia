@@ -15,10 +15,10 @@ apt install -y zabbix-server-mysql zabbix-frontend-php zabbix-apache-conf zabbix
 # Configura o MariaDB
 mysql -uroot -p <<MYSQL_SCRIPT
 123456
-create database zabbix character set utf8mb4 collate utf8mb4_bin;
-create user zabbix@localhost identified by '123456';
-grant all privileges on zabbix.* to zabbix@localhost;
-set global log_bin_trust_function_creators = 1;
+CREATE DATABASE zabbix character set utf8mb4 collate utf8mb4_bin;
+CREATE USER 'zabbix'@'localhost' IDENTIFIED BY '123456';
+GRANT ALL PRIVILEGES ON zabbix.* TO 'zabbix'@'localhost';
+SET GLOBAL log_bin_trust_function_creators = 1;
 quit;
 MYSQL_SCRIPT
 
@@ -27,7 +27,7 @@ zcat /usr/share/zabbix-sql-scripts/mysql/server.sql.gz | mysql --default-charact
 
 # Desativa a opção log_bin_trust_function_creators
 mysql -uroot -p <<MYSQL_SCRIPT
-set global log_bin_trust_function_creators = 0;
+SET GLOBAL log_bin_trust_function_creators = 0;
 quit;
 MYSQL_SCRIPT
 
@@ -39,5 +39,8 @@ systemctl restart zabbix-server zabbix-agent apache2
 
 # Habilita os serviços para iniciar automaticamente
 systemctl enable zabbix-server zabbix-agent apache2
+
+# Exibe informações sobre o status do Zabbix Server
+systemctl status zabbix-server
 
 echo "Instalação do Zabbix concluída com sucesso!"
