@@ -14,21 +14,22 @@ apt install -y zabbix-server-mysql zabbix-frontend-php zabbix-apache-conf zabbix
 
 # Configura o MariaDB
 mysql -uroot -p <<MYSQL_SCRIPT
-123456
-CREATE DATABASE zabbix character set utf8mb4 collate utf8mb4_bin;
-CREATE USER 'zabbix'@'localhost' IDENTIFIED BY '123456';
-GRANT ALL PRIVILEGES ON zabbix.* TO 'zabbix'@'localhost';
-SET GLOBAL log_bin_trust_function_creators = 1;
-quit;
+password
+mysql> create database zabbix character set utf8mb4 collate utf8mb4_bin;
+mysql> create user zabbix@localhost identified by 'password';
+mysql> grant all privileges on zabbix.* to zabbix@localhost;
+mysql> set global log_bin_trust_function_creators = 1;
+mysql> quit;
 MYSQL_SCRIPT
 
 # Importa o esquema do banco de dados do Zabbix
-sudo zcat /usr/share/zabbix-sql-scripts/mysql/server.sql.gz | mysql --default-character-set=utf8mb4 -uzabbix -p zabbix
+zcat /usr/share/zabbix-sql-scripts/mysql/server.sql.gz | mysql --default-character-set=utf8mb4 -uzabbix -p zabbix
 
 # Desativa a opção log_bin_trust_function_creators
 mysql -uroot -p <<MYSQL_SCRIPT
-SET GLOBAL log_bin_trust_function_creators = 0;
-quit;
+password
+mysql> set global log_bin_trust_function_creators = 0;
+mysql> quit;
 MYSQL_SCRIPT
 
 # Atualiza a senha no arquivo de configuração do Zabbix Server
