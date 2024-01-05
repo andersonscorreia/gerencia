@@ -27,6 +27,7 @@ zcat /usr/share/zabbix-sql-scripts/mysql/server.sql.gz | mysql --default-charact
 
 # Desativa a opção log_bin_trust_function_creators
 mysql -uroot -p <<MYSQL_SCRIPT
+123456
 SET GLOBAL log_bin_trust_function_creators = 0;
 quit;
 MYSQL_SCRIPT
