@@ -13,8 +13,7 @@ apt update
 apt install -y zabbix-server-mysql zabbix-frontend-php zabbix-apache-conf zabbix-sql-scripts zabbix-agent mariadb-server
 
 # Configura o MariaDB
-mysql -uroot -p <<EOF
-123456
+mysql -uroot -p 123456 <<EOF
 create database zabbix character set utf8mb4 collate utf8mb4_bin;
 create user zabbix@localhost identified by 'password';
 grant all privileges on zabbix.* to zabbix@localhost;
@@ -26,8 +25,7 @@ EOF
 zcat /usr/share/zabbix-sql-scripts/mysql/server.sql.gz | mysql --default-character-set=utf8mb4 -uzabbix -p zabbix
 
 # Desativa a opção log_bin_trust_function_creators
-mysql -uroot -p <<EOF
-123456
+mysql -uroot -p 123456 <<EOF
 set global log_bin_trust_function_creators = 0;
 quit;
 EOF
