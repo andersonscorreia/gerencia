@@ -23,7 +23,7 @@ quit;
 MYSQL_SCRIPT
 
 # Importa o esquema do banco de dados do Zabbix
-sudo zcat /usr/share/zabbix-sql-scripts/mysql/server.sql.gz | mysql --default-character-set=utf8mb4 -uzabbix -p zabbix
+zcat /usr/share/zabbix-sql-scripts/mysql/server.sql.gz | mysql --default-character-set=utf8mb4 -uzabbix -p zabbix
 
 # Desativa a opção log_bin_trust_function_creators
 mysql -uroot -p <<MYSQL_SCRIPT
