@@ -12,26 +12,31 @@ apt update
 # Instala os pacotes necessários do Zabbix e MariaDB
 apt install -y zabbix-server-mysql zabbix-frontend-php zabbix-apache-conf zabbix-sql-scripts zabbix-agent mariadb-server
 
-# Configura o MariaDB
-mysql -uroot -p123456 <<EOF
+# MySQL root password (replace with your actual password)
+MYSQL_ROOT_PASSWORD="password"
+# Zabbix database password (replace with your desired password)
+ZABBIX_DB_PASSWORD="password"
+
+# Connect to MySQL as root and create the Zabbix database and user
+mysql -uroot -p"$MYSQL_ROOT_PASSWORD" << EOF
 create database zabbix character set utf8mb4 collate utf8mb4_bin;
-create user zabbix@localhost identified by 'password';
+create user zabbix@localhost identified by '$ZABBIX_DB_PASSWORD';
 grant all privileges on zabbix.* to zabbix@localhost;
 set global log_bin_trust_function_creators = 1;
-quit;
+quit
 EOF
 
-# Importa o esquema do banco de dados do Zabbix
-zcat /usr/share/zabbix-sql-scripts/mysql/server.sql.gz | mysql --default-character-set=utf8mb4 -uzabbix -p zabbix
+# Import the Zabbix SQL schema
+zcat /usr/share/zabbix-sql-scripts/mysql/server.sql.gz | mysql --default-character-set=utf8mb4 -uzabbix -p"$ZABBIX_DB_PASSWORD" zabbix
 
-# Desativa a opção log_bin_trust_function_creators
-mysql -uroot -p123456 <<EOF
+# Reset the log_bin_trust_function_creators variable
+mysql -uroot -p"$MYSQL_ROOT_PASSWORD" << EOF
 set global log_bin_trust_function_creators = 0;
-quit;
+quit
 EOF
 
-# Atualiza a senha no arquivo de configuração do Zabbix Server
-sed -i 's/# DBPassword=/DBPassword=123456/' /etc/zabbix/zabbix_server.conf
+# Configure the Zabbix server's database settings
+sed -i "s/DBPassword=.*/DBPassword=$ZABBIX_DB_PASSWORD/" /etc/zabbix/zabbix_server.conf
 
 # Reinicia os serviços
 systemctl restart zabbix-server zabbix-agent apache2
