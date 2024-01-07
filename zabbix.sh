@@ -13,9 +13,9 @@ apt update
 apt install -y zabbix-server-mysql zabbix-frontend-php zabbix-apache-conf zabbix-sql-scripts zabbix-agent mariadb-server
 
 # MySQL root password (replace with your actual password)
-MYSQL_ROOT_PASSWORD="password"
+MYSQL_ROOT_PASSWORD="123456"
 # Zabbix database password (replace with your desired password)
-ZABBIX_DB_PASSWORD="password"
+ZABBIX_DB_PASSWORD="123456"
 
 # Connect to MySQL as root and create the Zabbix database and user
 mysql -uroot -p"$MYSQL_ROOT_PASSWORD" << EOF
@@ -36,7 +36,7 @@ quit
 EOF
 
 # Configure the Zabbix server's database settings
-sed -i "s/DBPassword=.*/DBPassword=$ZABBIX_DB_PASSWORD/" /etc/zabbix/zabbix_server.conf
+sed -i "s/DBPassword=.*/#DBPassword=$ZABBIX_DB_PASSWORD/" /etc/zabbix/zabbix_server.conf
 
 # Reinicia os serviços
 systemctl restart zabbix-server zabbix-agent apache2
