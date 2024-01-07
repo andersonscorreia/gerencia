@@ -36,7 +36,7 @@ quit
 EOF
 
 # Configure the Zabbix server's database settings
-sed -i "s/DBPassword=.*/#DBPassword=$ZABBIX_DB_PASSWORD/" /etc/zabbix/zabbix_server.conf
+sed -i "s/# DBPassword=.*/DBPassword=$ZABBIX_DB_PASSWORD/" /etc/zabbix/zabbix_server.conf
 
 # Reinicia os serviços
 systemctl restart zabbix-server zabbix-agent apache2
