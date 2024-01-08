@@ -11,7 +11,7 @@ echo "deb [signed-by=/etc/apt/keyrings/grafana.gpg] https://apt.grafana.com stab
 
 apt update
 
-apt install grafana
+apt install -y grafana 
 
 grafana-cli plugins install alexanderzobnin-zabbix-app
 
