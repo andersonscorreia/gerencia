@@ -8,6 +8,9 @@ service influxdb start
 
 ARG1="127.0.0.1:8087"
 
-ExecStart=/usr/bin/influxd $ARG1
+sed -i "s|ExecStart=/usr/bin/influxd.*|ExecStart=/usr/bin/influxd $ARG1|" /lib/systemd/system/influxdb.service
 
+systemctl daemon-reload
+
+service influxdb start
 service influxdb restart
