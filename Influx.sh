@@ -1,7 +1,8 @@
 #!/bin/bash
 
-wget https://dl.influxdata.com/influxdb/releases/influxdb2_2.7.4-1_arm64.deb
-dpkg -i influxdb2_2.7.4-1_arm64.deb
+
+wget https://dl.influxdata.com/influxdb/releases/influxdb2_2.7.4-1_amd64.deb
+dpkg -i influxdb2_2.7.4-1_amd64.deb
 
 service influxdb start
 
