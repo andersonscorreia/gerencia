@@ -10,7 +10,7 @@ dpkg -i zabbix-release_latest_7.2+debian12_all.deb
 apt update
 
 # Instala os pacotes necessários do Zabbix e MariaDB
-apt install -y zabbix-server-mysql zabbix-frontend-php zabbix-apache-conf zabbix-sql-scripts zabbix-agent
+apt install -y mariadb-server zabbix-server-mysql zabbix-frontend-php zabbix-apache-conf zabbix-sql-scripts zabbix-agent
 
 # MySQL root password (replace with your actual password)
 MYSQL_ROOT_PASSWORD="123456"
