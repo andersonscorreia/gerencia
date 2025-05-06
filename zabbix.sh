@@ -1,16 +1,16 @@
 #!/bin/bash
 
 # Baixa o pacote de release do Zabbix
-wget https://repo.zabbix.com/zabbix/6.0/debian/pool/main/z/zabbix-release/zabbix-release_6.0-5+debian12_all.deb
+wget https://repo.zabbix.com/zabbix/7.2/release/debian/pool/main/z/zabbix-release/zabbix-release_latest_7.2+debian12_all.deb
 
 # Instala o pacote de release do Zabbix
-dpkg -i zabbix-release_6.0-5+debian12_all.deb
+dpkg -i zabbix-release_latest_7.2+debian12_all.deb
 
 # Atualiza a lista de pacotes
 apt update
 
 # Instala os pacotes necessários do Zabbix e MariaDB
-apt install -y zabbix-server-mysql zabbix-frontend-php zabbix-apache-conf zabbix-sql-scripts zabbix-agent mariadb-server
+apt install -y zabbix-server-mysql zabbix-frontend-php zabbix-apache-conf zabbix-sql-scripts zabbix-agent
 
 # MySQL root password (replace with your actual password)
 MYSQL_ROOT_PASSWORD="123456"
@@ -26,8 +26,9 @@ set global log_bin_trust_function_creators = 1;
 quit
 EOF
 
+
 # Import the Zabbix SQL schema
-zcat /usr/share/zabbix-sql-scripts/mysql/server.sql.gz | mysql --default-character-set=utf8mb4 -uzabbix -p"$ZABBIX_DB_PASSWORD" zabbix
+zcat /usr/share/zabbix/sql-scripts/mysql/server.sql.gz | mysql --default-character-set=utf8mb4 -uzabbix -p"$ZABBIX_DB_PASSWORD" zabbix
 
 # Reset the log_bin_trust_function_creators variable
 mysql -uroot -p"$MYSQL_ROOT_PASSWORD" << EOF
